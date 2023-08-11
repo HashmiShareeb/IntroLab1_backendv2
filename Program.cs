@@ -1,6 +1,17 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddValidatorsFromAssemblyContaining<WineValidator>(); //validator toevoegen altijd op de 2de regel
+builder.Services.AddSwaggerGen(
+    c =>
+    {
+        c.SwaggerDoc("v1", new() { Title = "Wine API", Version = "v1" });
+    }
+); //swagger toevoegen
+
+builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
+app.MapSwagger(); //swagger toevoegen
+app.UseSwaggerUI(); //swagger ui toevoegen en laten werken
 
 app.MapGet("/", () => "Hello World!"); //anonymous function -> geen paramaters
 
